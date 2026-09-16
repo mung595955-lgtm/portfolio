@@ -742,26 +742,64 @@ html {
   position: absolute;
   right: 330px;
   top: 150px;
-  display: flex;
-  height: auto;
-  flex-direction: column;
-  gap: 50px;
-  padding-bottom: 100px;
-    overflow-x: hidden;
-  overflow-y: auto;
-  /* 기존 설정 유지 */
 
-  /* 스크롤바 숨기기 (크로스 브라우저) */
-  scrollbar-width: none;
-  /* Firefox */
-  -ms-overflow-style: none;
-  /* IE 10+ */
+  width: 517px;
+  height: 760px;
+
+  overflow: hidden;
+}
+
+/* Swiper 카드 묶음 */
+.project_con .swiper-wrapper {
+  width: 100%;
+  height: 656px;
+  align-items: flex-start;
+}
+
+.project_con .swiper-slide {
+  width: 517px !important;
+  height: 656px !important;
+  flex-shrink: 0;
+  margin-top: 0;
 }
 
 
-.project_con::-webkit-scrollbar {
-  display: none;
-  /* Chrome, Safari, Opera */
+
+/* pagination */
+.project-pagination {
+  position: absolute;
+  left: 50% !important;
+  bottom: 65px !important;
+
+  transform: translateX(-50%);
+
+  width: auto !important;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+
+  z-index: 10;
+}
+
+/* 동그라미 */
+.project-pagination .swiper-pagination-bullet {
+  width: 10px;
+  height: 10px;
+
+  margin: 0 !important;
+
+  background: rgba(255, 255, 255, 0.45);
+  opacity: 1;
+
+  transition: 0.3s ease;
+}
+
+/* 현재 카드 */
+.project-pagination .swiper-pagination-bullet-active {
+  background: #fff;
+  transform: scale(1.25);
 }
 
 .project_con li {
@@ -771,7 +809,6 @@ html {
   background: rgba(255, 255, 255, .1);
   backdrop-filter: blur(2px);
   border-radius: 20px;
-  margin-top: 50px;
 }
 
 .project_con li .card-inner {
@@ -795,37 +832,45 @@ html {
   text-decoration: none;
 }
 
-.project_con li:nth-child(1) img {
+/* FINPICK */
+.finpick-card .project_img img {
   position: absolute;
   left: 0;
   top: 130px;
 }
 
-.project_con li:nth-child(2) img {
+/* PARISBAGUTTE */
+.paris-card .project_img img {
   position: absolute;
   left: 28px;
   top: 230px;
 }
 
-.project_con li:nth-child(2) .icon {
+.paris-card .icon {
   transform: translate(-10px, .55px);
 }
 
-.project_con li:nth-child(2) .icon svg {
+.paris-card .icon svg {
   width: 28px;
   height: 28px;
 }
 
-.project_con li:nth-child(3) img {
+/* BOBISSUE */
+.bobissue-card .project_img img {
   position: absolute;
   left: 55px;
   top: 230px;
 }
 
-.project_con li:nth-child(4) img {
+/* BLOOP */
+.bloop-card .project_img img {
   position: absolute;
   left: 95px;
   top: 200px;
+}
+
+.project_con .swiper-slide.filter-hidden {
+  display: none !important;
 }
 
 .top {
@@ -865,7 +910,7 @@ html {
 .prototype {
   width: 258px;
   height: 55px;
-  background: var(--main-color);
+  background: #9ab3ff;
   color: var(--w-color);
   text-align: center;
   font-weight: 400;
@@ -1036,6 +1081,33 @@ section {
   pointer-events: auto;
 
   transform: translate(-50%, -50%);
+}
+
+/* =========================
+   PROJECT - 스크롤 완전 제거
+========================= */
+
+.project_con {
+  overflow: hidden !important;
+  overflow-x: hidden !important;
+  overflow-y: hidden !important;
+
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+.project_con::-webkit-scrollbar,
+.project_con .swiper-wrapper::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+
+.project_con ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 
@@ -1284,6 +1356,30 @@ button {
     .plane-cursor-point {
         display: none;
     }
+}
+
+/* PROTOTYPE hover */
+.project_con .prototype:hover {
+  background: #008CFF;
+  color: #fff;
+  border-color: #008CFF;
+}
+
+/* LANDING hover */
+.project_con .Landing:hover {
+  background: #008CFF;
+  color: #fff;
+  border-color: #008CFF;
+}
+
+/* 프로젝트 이미지 부드럽게 */
+.project_con .project_img img {
+  transition: transform 0.4s ease;
+}
+
+/* 카드 hover → 이미지만 살짝 확대 */
+.project_con .swiper-slide:hover .project_img img {
+  transform: scale(1.04);
 }
 
 

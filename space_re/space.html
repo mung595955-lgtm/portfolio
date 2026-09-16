@@ -458,13 +458,13 @@
 
 </div>
 
-<div class="project_con">
-  <ul>
+<div class="project_con swiper">
+  <ul class="swiper-wrapper">
 
     <!-- =========================
          01. FINPICK
     ========================== -->
-    <li data-category="team">
+    <li class="swiper-slide finpick-card" data-category="team">
 
       <div class="card-inner">
 
@@ -522,7 +522,7 @@
     <!-- =========================
          02. PARISBAGUTTE
     ========================== -->
-    <li data-category="personal">
+    <li class="swiper-slide paris-card" data-category="personal">
 
       <div class="card-inner">
 
@@ -582,7 +582,7 @@
     <!-- =========================
          03. BOBISSUE
     ========================== -->
-    <li data-category="team">
+    <li class="swiper-slide bobissue-card" data-category="team">
 
       <div class="card-inner">
 
@@ -640,7 +640,7 @@
     <!-- =========================
          04. BLOOP
     ========================== -->
-    <li data-category="team">
+    <li class="swiper-slide bloop-card" data-category="team">
 
       <div class="card-inner">
 
@@ -695,15 +695,11 @@
     </li>
 
   </ul>
+
+  <div class="project-pagination"></div>
+
 </div><!-- //.project_con -->
 
-<button type="button" class="project_top_btn">
-  <span class="top-circle">
-    <span class="top-arrow"></span>
-  </span>
-
-  <span class="top-text">TOP</span>
-</button>
   </div><!-- //.project -->
 
 <canvas id="plane-cursor"></canvas>
