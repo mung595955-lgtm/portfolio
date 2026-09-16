@@ -276,35 +276,122 @@ html {
   z-index: 3;
 }
 
-.water_wave {
-  width: 200%;
-  position: absolute;
-  bottom: 0;
-  /* ✅ svg가 바닥 아래에서 시작 */
-  fill: white;
+/* =========================================
+   WAVE FILL
+========================================= */
+
+.wave-fill-wrapper {
+    position: fixed;
+
+    left: 50%;
+    top: 50%;
+
+    transform: translate(-50%, -50%);
+
+    display: none;
+
+    gap: 40px;
+
+    justify-content: center;
+    align-items: flex-end;
+
+    width: auto;
+
+    opacity: 0;
+
+    z-index: 9999;
+
+    overflow: visible !important;
 }
 
-.water_wave_back {
-  right: 0;
-  opacity: 0.5;
-  animation: wave-back 1.4s infinite linear;
+
+/* 각 SVG */
+.wave-fill {
+    display: block;
+
+    overflow: visible !important;
+}
+
+
+/* =========================================
+   DRAW LINE
+========================================= */
+
+.draw-path {
+    fill: none;
+
+    stroke: #fff;
+
+    /* 기존보다 아주 살짝 두껍게 */
+    stroke-width: 2.6;
+
+    stroke-linecap: round;
+    stroke-linejoin: round;
+
+    vector-effect: non-scaling-stroke;
+}
+
+
+/* =========================================
+   DRAW DOT
+========================================= */
+
+.draw_dot {
+    fill: #fff;
+
+    pointer-events: none;
+}
+
+
+/* =========================================
+   흰색 채움
+========================================= */
+
+
+
+/* =========================================
+   WATER WAVE 공통
+========================================= */
+
+/* ================================
+   WAVE
+================================ */
+
+.water_wave {
+    fill: #fff;
+    pointer-events: none;
 }
 
 .water_wave_front {
-  left: 0;
-  animation: wave-front 0.7s infinite linear;
+    opacity: 1;
 }
 
-@keyframes wave-front {
-  100% {
-    transform: translateX(-50%);
-  }
+.water_wave_back {
+    opacity: 0.22;
 }
 
-@keyframes wave-back {
-  100% {
-    transform: translateX(50%);
-  }
+
+/* 라인 아주 살짝 두껍게 */
+.draw-path {
+    fill: none;
+    stroke: #fff;
+    stroke-width: 2.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+
+/* 점 */
+.draw_dot {
+    fill: #fff;
+    pointer-events: none;
+}
+
+
+/* 흰색 면 */
+.fill-rect {
+    fill: #fff;
+    pointer-events: none;
 }
 
 .shapes {
@@ -388,6 +475,211 @@ html {
   top: 580px;
 }
 
+/* =========================
+   GNB
+========================= */
+
+.side_gnb {
+  width: 67px;
+  height: 320px;
+
+  position: fixed;
+  left: 91px;
+  top: 53%;
+
+  transform: translateY(-50%);
+
+  z-index: 100;
+}
+
+.side_gnb ul {
+  display: flex;
+  flex-direction: column;
+  gap: 57px;
+
+  justify-content: center;
+  align-items: center;
+}
+
+.side_gnb ul li {
+  position: relative;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.side_gnb a {
+  display: block;
+}
+
+
+/* =========================
+   GNB hover text
+========================= */
+
+.gnb_text {
+  position: absolute;
+  top: 50%;
+  left: calc(100% + 30px);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 40px;
+  padding: 25px;
+
+  box-sizing: border-box;
+
+  color: var(--w-color);
+  font-size: 25px;
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+
+  border: 1.8px solid rgba(255, 255, 255, 0.55);
+  border-radius: 999px;
+
+  background: rgba(255, 255, 255, 0.08);
+
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+
+  opacity: 0;
+
+  transform: translate(-8px, -50%);
+
+  pointer-events: none;
+
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease;
+}
+
+.side_gnb ul li:hover .gnb_text {
+  opacity: 1;
+
+  transform: translate(0, -50%);
+}
+
+
+/* =========================
+   1번 : 점
+========================= */
+
+/* 커몬 CSS와 위치 통일 */
+.side_gnb ul li:nth-child(1) {
+  width: 52px;
+  height: 30px;
+}
+
+.side_gnb .section_dot_btn {
+  position: absolute;
+
+  top: 50%;
+  left: 50%;
+
+  width: 30px;
+  height: 30px;
+
+  border-radius: 50%;
+  background: var(--w-color);
+
+  transform: translate(-50%, -50%);
+
+  transition:
+    width 0.3s ease,
+    height 0.3s ease;
+}
+
+/* 점만 커짐 */
+.side_gnb .section_dot_btn:hover {
+  width: 42px;
+  height: 42px;
+}
+
+
+/* =========================
+   2번 : 선
+========================= */
+
+.side_gnb ul li:nth-child(2) a {
+  width: 52px;
+  height: 5px;
+
+  border-radius: 5px;
+  background: var(--w-color);
+
+  transition: transform 0.3s ease;
+}
+
+.side_gnb ul li:nth-child(2):hover a {
+  transform: rotate(-35deg);
+}
+
+
+/* =========================
+   3번 : 사각형
+========================= */
+
+.side_gnb ul li:nth-child(3) a {
+  box-sizing: border-box;
+
+  width: 52px;
+  height: 52px;
+
+  border-radius: 7px;
+  border: 5px solid var(--w-color);
+
+  transition: background 0.3s ease;
+}
+
+.side_gnb ul li:nth-child(3):hover a {
+  background: var(--w-color);
+}
+
+
+/* =========================
+   4번 : 3D
+========================= */
+
+.section_3d img {
+  display: block;
+  transition: transform 0.8s ease;
+  transform-origin: center center;
+}
+
+
+/* =========================================
+   Project 화면 - 마지막 GNB 회전
+========================================= */
+
+.side_gnb.project-active .section_3d img {
+  animation: projectGnbRotate 1s linear infinite;
+  transform-origin: center center;
+}
+
+@keyframes projectGnbRotate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+/* hover하면 회전 멈춤 */
+.side_gnb.project-active .section_3d:hover img {
+  animation-play-state: paused;
+}
+
+
+
+/* -------------- */
 .project_gnb ul {
   display: flex;
   position: absolute;
@@ -482,12 +774,25 @@ html {
   margin-top: 50px;
 }
 
-.project_con li a {
+.project_con li .card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.project_con li .card-main-link {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   padding-top: 30px;
+  text-decoration: none;
+}
+
+.btn > a {
+  display: block;
+  padding: 0;
+  text-decoration: none;
 }
 
 .project_con li:nth-child(1) img {
@@ -500,6 +805,15 @@ html {
   position: absolute;
   left: 28px;
   top: 230px;
+}
+
+.project_con li:nth-child(2) .icon {
+  transform: translate(-10px, .55px);
+}
+
+.project_con li:nth-child(2) .icon svg {
+  width: 28px;
+  height: 28px;
 }
 
 .project_con li:nth-child(3) img {
@@ -572,24 +886,6 @@ html {
      font-size: 25px;
 }
 
-.scroll_hint {
-  position: fixed;
-  right: 82px;
-  bottom: 56px;
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  border: 3px solid var(--w-color);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transform: translateY(30px);
-  /* 살짝 아래에 있게 */
-  pointer-events: none;
-  z-index: 30;
-}
-
-
 
 /* gnb */
 
@@ -626,20 +922,6 @@ html {
   height: 100%;
 }
 
-/* 1번: 동그라미 버튼 */
-
-.side_gnb ul li:nth-child(1) {
-  position: relative;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background: var(--w-color);
-  transition: 0.3s;
-}
-
-.side_gnb ul li:nth-child(1):hover {
-  transform: scale(1.4);
-}
 
 /* 2번: 선형 회전 버튼 */
 .side_gnb ul li:nth-child(2) a {
@@ -672,9 +954,7 @@ html {
   transform-origin: center center;
 }
 
-.section_3d:hover img {
-  transform: rotate(360deg);
-}
+
 
 section {
   width: 100vw;
@@ -691,81 +971,322 @@ section {
 }
 
 .wave-fill-wrapper {
-  position: fixed;
-  top: 450PX;
-  left: 1300PX;
-  transform: translate(-50%, -50%);
-  display: flex;
-  gap: 40px;
-  justify-content: center;
-  align-items: center;
-  z-index: 10;
-  opacity: 0;
-  display: none;
-  z-index: 9999;
-  align-items: flex-end;
-  /* ✅ 아래 기준으로 정렬 */
-  width: 1920PX;
-  overflow: visible !important
-}
+    position: fixed;
 
+    left: 50%;
+    top: 50%;
+
+    transform: translate(-50%, -50%);
+
+    display: none;
+
+    gap: 40px;
+
+    justify-content: center;
+    align-items: flex-end;
+
+    width: auto;
+
+    z-index: 9999;
+
+    opacity: 0;
+
+    overflow: visible !important;
+}
 
 .wave-fill svg,
 .wave-fill {
-  vertical-align: bottom;
-  padding-left: 50PX;
-  overflow: visible !important;
+    vertical-align: bottom;
+    overflow: visible !important;
 }
 
-.water {
-  position: absolute;
+/* =========================================
+   PROJECT FILTER
+========================================= */
+
+.project_filter {
+  position: fixed;
+
   left: 0;
-  bottom: 0;
+  top: 0;
+
   width: 100%;
   height: 100%;
-  background: #fff;
-  transform: translateY(100%);
-  z-index: 1;
-  transition: transform 0.3s;
+
+  z-index: 25;
+
+  pointer-events: none;
 }
 
-.water_wave {
-  width: 200%;
+
+/* 실제 클릭 영역 */
+.project_filter button {
   position: absolute;
-  bottom: 100%;
-  transition: y 2s cubic-bezier(0.4, 0, 0.2, 1);
+
+  width: 100px;
+  height: 180px;
+
+  padding: 0;
+  border: 0;
+
+  background: transparent;
+
+  cursor: pointer;
+
+  pointer-events: auto;
+
+  transform: translate(-50%, -50%);
 }
 
-.water_wave_back {
-  right: 0;
+
+/* =========================================
+   PROJECT FILTER ON / OFF
+========================================= */
+
+/* 기본 상태 */
+.filter-icon {
   fill: #fff;
-  animation: wave-back 1.4s infinite linear;
-  opacity: 0.5
+  transition: fill 0.3s ease;
 }
 
-.water_wave_front {
-  left: 0;
+/* ON 상태 */
+.filter-icon.active {
+  fill: #008CFF;
+}
+
+/* OFF 상태 */
+.filter-text {
   fill: #fff;
-  animation: wave-front 0.7s infinite linear;
+
+  font-family: var(--Noto-Sans);
+  font-size: 18px;
+  font-weight: 300;
+
+  text-anchor: middle;
+
+  transition: none;
 }
 
-.draw-path {
-  stroke-width: 3;
-  /* 기존 2에서 조금 두껍게 */
+
+/* ON 상태 */
+.filter-text.active {
+  font-weight: 500;
+  font-size: 21px;
 }
 
-@keyframes wave-front {
+.project-current-filter {
+  fill: #fff;
+
+  font-family: var(--Noto-Sans);
+  font-size: 73px;
+  font-weight: 415;
+
+  transition: none;
+}
+
+.filter-progress-active {
+  transition: x 0.35s ease;
+}
+
+.filter-progress-number {
+  fill: #fff;
+  font-family: "IBM Plex Sans JP", sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.project_top_btn {
+  position: absolute;
+  right: 90px;
+  bottom: 63px;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 14px;
+
+  padding: 0;
+  border: 0;
+  background: transparent;
+
+  color: #424242;
+
+  cursor: pointer;
+  z-index: 40;
+}
+
+
+/* 원 */
+
+.top-circle {
+  position: relative;
+
+  width: 38px;
+  height: 38px;
+
+  border: 1.7px solid #424242;
+  border-radius: 50%;
+
+  overflow: hidden;
+}
+
+
+/* 위쪽 화살표 */
+
+.top-arrow {
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  width: 10px;
+  height: 10px;
+
+  border-left: 1.2px solid #424242;
+  border-top: 1.2px solid #424242;
+
+  transform:
+    translate(-50%, -50%)
+    rotate(45deg);
+
+  animation:
+    topArrowPass 1s
+    ease-in-out infinite;
+}
+
+
+/* 아래 → 위로 지나가는 모션 */
+
+@keyframes topArrowPass {
+
+  0% {
+    top: 85%;
+    opacity: 0;
+  }
+
+  20% {
+    opacity: 1;
+  }
+
+  70% {
+    opacity: 1;
+  }
+
   100% {
-    transform: translate(-50%, 0);
+    top: 15%;
+    opacity: 0;
   }
 }
 
-@keyframes wave-back {
-  100% {
-    transform: translate(50%, 0);
-  }
+
+/* TOP */
+
+.top-text {
+  font-family: var(--IBM-Plex-Sans);
+
+  font-size: 20px;
+  font-weight: 390;
+
+  letter-spacing: .3px;
+  white-space: nowrap;
 }
 
-.fill-rect {
-  transition: y 2s cubic-bezier(0.4, 0, 0.2, 1);
+
+/* hover */
+
+.project_top_btn:hover {
+  opacity: .65;
 }
+
+
+/* =========================================
+   PLANE CURSOR
+========================================= */
+
+body,
+a,
+button {
+    cursor: none;
+}
+
+
+/* 점 + 선이 그려지는 Canvas */
+
+#plane-cursor {
+    position: fixed;
+    inset: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    pointer-events: none;
+    z-index: 9999998;
+}
+
+
+/* =========================================
+   REAL CURSOR
+========================================= */
+
+.plane-cursor-point {
+    position: fixed;
+
+    left: 50%;
+    top: 50%;
+
+    width: 50px;
+    height: 50px;
+
+    border: 1.8px solid #7973F3;
+    border-radius: 50%;
+
+    transform: translate(-50%, -50%);
+
+    pointer-events: none;
+    z-index: 9999999;
+
+    box-sizing: border-box;
+}
+
+
+/* 가운데 작은 점 */
+
+.plane-cursor-point::after {
+    content: "";
+
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    width: 15px;
+    height: 15px;
+
+    background: #7973F3;
+    border-radius: 50%;
+
+    transform: translate(-50%, -50%);
+    opacity: 80%;
+}
+
+
+/* 모바일 */
+
+@media (hover: none), (pointer: coarse) {
+
+    body,
+    a,
+    button {
+        cursor: auto;
+    }
+
+    #plane-cursor,
+    .plane-cursor-point {
+        display: none;
+    }
+}
+
+
+
+
+

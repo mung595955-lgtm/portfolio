@@ -19,24 +19,29 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 100vmax;
-  height: 100vmax;
+
+  width: 100vw;
+  height: 100vh;
+
   background-image: url("../img/dot_bg.png");
-  background-size: cover;
+  background-size: 100% 100%;
   background-position: center;
-  transform: translate(-50%, -50%) scale(0);
-  clip-path: circle(0% at 50% 50%);
+  background-repeat: no-repeat;
+
+  transform: translate(-50%, -50%);
+
+  clip-path: circle(0vmax at 50% 50%);
   opacity: 0;
+
   z-index: 15;
+
   transition:
-    width 0.8s ease,
-    height 0.8s ease,
-    opacity 0.8s ease;
+    clip-path 1.15s cubic-bezier(0.22, 0.61, 0.36, 1),
+    opacity 0.2s linear;
 }
 
 .dot_bg.expand {
-  width: 3000px;
-  height: 3000px;
+  clip-path: circle(150vmax at 50% 50%);
   opacity: 1;
 }
 
@@ -305,4 +310,151 @@
   margin-top: 4px;
 }
 
+
+/* =========================================
+   GOOEY CURSOR
+========================================= */
+
+body,
+a,
+button {
+  cursor: none;
+}
+
+
+/* 커서 전체 */
+
+.gooey-cursor {
+  position: fixed;
+  inset: 0;
+
+  width: 100vw;
+  height: 100vh;
+
+  pointer-events: none;
+
+  z-index: 9999999;
+
+  filter: url("#cursor-goo");
+
+  overflow: visible;
+}
+
+
+/* 필터용 SVG는 화면에서 숨김 */
+
+.cursor-filter-svg {
+  position: fixed;
+
+  width: 0;
+  height: 0;
+
+  pointer-events: none;
+}
+
+
+/* =========================
+   공통 DOT
+========================= */
+
+.cursor-dot {
+  position: absolute;
+
+  left: 0;
+  top: 0;
+
+  width: 13px;
+  height: 13px;
+
+  border-radius: 50%;
+
+  background: #fff;
+  opacity: 20%;
+
+  transform: translate(-50%, -50%);
+
+  will-change: left, top;
+
+  pointer-events: none;
+}
+
+
+/* =========================
+   앞 → 뒤 크기
+========================= */
+
+.cursor-dot:nth-child(1) {
+  width: 60px;
+  height: 60px;
+}
+
+.cursor-dot:nth-child(2) {
+  width: 45px;
+  height: 45px;
+}
+
+.cursor-dot:nth-child(3) {
+  width: 28px;
+  height: 28px;
+}
+
+.cursor-dot:nth-child(4) {
+  width: 21px;
+  height: 21px;
+}
+
+/* .cursor-dot:nth-child(5) {
+  width: 14px;
+  height: 14px;
+}
+
+.cursor-dot:nth-child(6) {
+  width: 10px;
+  height: 10px;
+}
+
+.cursor-dot:nth-child(7) {
+  width: 7px;
+  height: 7px;
+} */
+
+
+/* =========================
+   링크 hover
+========================= */
+
+.gooey-cursor.cursor-hover
+.cursor-dot:nth-child(1) {
+  width: 38px;
+  height: 38px;
+}
+
+
+/* =========================
+   클릭
+========================= */
+
+.gooey-cursor.cursor-click
+.cursor-dot:nth-child(1) {
+  width: 20px;
+  height: 20px;
+}
+
+
+/* =========================
+   모바일
+========================= */
+
+@media (hover: none), (pointer: coarse) {
+
+  body,
+  a,
+  button {
+    cursor: auto;
+  }
+
+  .gooey-cursor {
+    display: none;
+  }
+}
 

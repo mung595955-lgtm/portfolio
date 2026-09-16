@@ -246,19 +246,23 @@ body.scroll-lock {
 }
 
 
-.side-gnb {
+/* gnb */
+
+.side_gnb {
     width: 67px;
     height: 320px;
     position: fixed;
     left: 91px;
     top: 53%;
     transform: translateY(-50%);
-    /* 살짝 아래에 있게 */
-    transition: opacity 0.8s ease, transform 0.8s ease;
-    z-index: 1000;
+    opacity: 1;
+    /* transition: opacity 0.8s ease, transform 0.8s ease; */
+    z-index: 9999;
 }
 
-.side-gnb ul {
+/* GNB 등장 */
+
+.side_gnb ul {
     display: flex;
     flex-direction: column;
     gap: 57px;
@@ -266,132 +270,272 @@ body.scroll-lock {
     align-items: center;
 }
 
-.side-gnb ul li:nth-child(1) {
+.side_gnb ul li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* =========================
+   GNB 공통
+========================= */
+
+.side_gnb ul li {
+    position: relative;
+}
+
+.side_gnb a {
+    display: block;
+}
+
+
+/* =========================
+   hover text
+========================= */
+
+.gnb_text {
+    position: absolute;
+    top: 50%;
+    left: calc(100% + 30px);
+
+    /* 박스 내부 정렬 */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    /* 박스 크기 */
+    height: 40px;
+    padding: 25px;
+    box-sizing: border-box;
+
+    /* 텍스트 */
+    color: var(--w-color);
+    font-size: 25px;
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: 0.2px;
+    white-space: nowrap;
+
+    /* 박스 디자인 */
+    /* border: 2px solid var(--main-color); */
+    border-radius: 999px;
+   background: rgba(239, 182, 255, .3);
+
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+
+    /* 처음에는 숨김 */
+    opacity: 0;
+    transform: translate(-8px, -50%);
+
+    pointer-events: none;
+
+    transition:
+        opacity 0.25s ease,
+        transform 0.25s ease;
+}
+
+
+/* li에 hover하면 텍스트 등장 */
+
+.side_gnb ul li:hover .gnb_text {
+    opacity: 1;
+    transform: translate(0, -50%);
+}
+
+
+/* 1번 : 동그라미 */
+
+.side_gnb ul li:nth-child(1) {
+    position: relative;
+
+    width: 52px;   /* 다른 GNB와 동일한 영역 */
+    height: 30px;
+}
+
+.side_gnb ul li:nth-child(1) a {
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
     width: 30px;
     height: 30px;
+
     border-radius: 50%;
     background: var(--w-color);
-    transition: .3s;
+
+    transform: translate(-50%, -50%);
+
+    transition: transform 0.3s ease;
 }
 
-.side-gnb ul li:nth-child(1):hover {
-    transform: scale(1.4);
+.side_gnb ul li:nth-child(1):hover a {
+    transform: translate(-50%, -50%) scale(1.4);
 }
 
-.side-gnb a {
-    display: block;
-    /* ✅ 필수 */
-    width: 100%;
-    height: 100%;
-}
 
-.side-gnb ul li:nth-child(2) {
+/* =========================
+   2번 : 선
+========================= */
+
+.side_gnb ul li:nth-child(2) a {
     width: 52px;
     height: 5px;
+
     border-radius: 5px;
     background: var(--w-color);
-    transition: .3s;
+
+    transition: transform 0.3s ease;
 }
 
-.side-gnb ul li:nth-child(2):hover {
+.side_gnb ul li:nth-child(2):hover a {
     transform: rotate(-35deg);
 }
 
 
-.side-gnb ul li:nth-child(3) {
+/* =========================
+   3번 : 사각형
+========================= */
+
+.side_gnb ul li:nth-child(3) a {
+    box-sizing: border-box;
+
     width: 52px;
     height: 52px;
+
     border-radius: 7px;
     border: 5px solid var(--w-color);
-    transition: .3s;
+
+    transition: background 0.3s ease;
 }
 
-.side-gnb ul li:nth-child(3):hover {
+.side_gnb ul li:nth-child(3):hover a {
     background: var(--w-color);
 }
 
-.gnb4{
+
+/* =========================
+   4번 : 3D
+========================= */
+
+.section_3d img {
+    display: block;
+
     transition: transform 0.8s ease;
     transform-origin: center center;
 }
 
-.gnb4:hover {
+.section_3d:hover img {
     transform: rotate(360deg);
 }
 
+/* =========================
+   SCROLL DOWN
+========================= */
+
 .scroll-hint {
-    position: absolute;
-    right: 82px;
-    bottom: 56px;
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    border: 3px solid var(--main-color);
+    position: fixed;
+
+    right: 60px;
+    bottom: 55px;
+
     display: flex;
     align-items: center;
-    justify-content: center;
-    pointer-events: none;
-    z-index: 10;
-}
+    gap: 14px;
 
-.circle-draw-wrapper {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
+    z-index: 999999;
 
-.circle-draw-container {
-    width: 300px;
-    height: 300px;
-    position: relative;
-    animation: rotate 2s linear forwards;
-}
+    color: #424242;
 
-.circle-outline {
-    width: 100%;
-    height: 100%;
-    border: 1.5px solid var(--main-color);
-    border-radius: 50%;
-    position: absolute;
-    top: 0;
-    left: 0;
     opacity: 1;
+    transition: opacity 0.35s ease;
+
+    pointer-events: none;
 }
 
-.dot-tracer {
-    width: 14px;
-    height: 14px;
+
+/* 동그라미 */
+
+.scroll-circle {
+    position: relative;
+
+    width: 38px;
+    height: 38px;
+
+    border: 1.7px solid #424242;
     border-radius: 50%;
-    background-color: var(--main-color);
+
+    overflow: hidden;
+}
+
+
+/* 원 안의 V 화살표 */
+
+.scroll-arrow {
     position: absolute;
-    top: 0;
+
     left: 50%;
-    transform: translate(-50%, -50%);
-    animation: shrink 2s ease-in forwards;
-    animation-delay: 1.5s;
+    top: 50%;
+
+    width: 10px;
+    height: 10px;
+
+    border-right: 1.2px solid #424242;
+    border-bottom: 1.2px solid #424242;
+
+    transform:
+        translate(-50%, -50%)
+        rotate(45deg);
+
+    animation:
+        scrollArrowPass 1s
+        ease-in-out infinite;
 }
 
-@keyframes rotate {
+
+/* 위 → 아래로 통과 */
+
+@keyframes scrollArrowPass {
+
     0% {
-        transform: rotate(0deg);
-    }
-
-    100% {
-        transform: rotate(360deg);
-    }
-}
-
-@keyframes shrink {
-    0% {
-        opacity: 1;
-        transform: translate(-50%, -50%) scale(1);
-    }
-
-    100% {
+        top: 15%;
         opacity: 0;
-        transform: translate(-50%, -50%) scale(0);
     }
+
+    20% {
+        opacity: 1;
+    }
+
+    70% {
+        opacity: 1;
+    }
+
+    100% {
+        top: 85%;
+        opacity: 0;
+    }
+}
+
+
+/* SCROLL DOWN */
+
+.scroll-text {
+    font-family: var(--IBM-Plex-Sans);
+
+    font-size: 17px;
+    font-weight: 380;
+
+    letter-spacing: 0.3px;
+
+    white-space: nowrap;
+}
+
+
+/* 마지막 화면에서만 숨김 */
+
+.scroll-hint.hide {
+    opacity: 0;
 }
 
 .dot-rotate-wrapper {
@@ -416,75 +560,73 @@ body.scroll-lock {
 
 .spin-dot {
     position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translate(-50%, -50%);
+
     width: 30px;
     height: 30px;
+
     background-color: #86A4FF;
     border-radius: 50%;
-    transform-origin: center 320px;
-    /* 원 중심 기준으로 회전 */
+
+    z-index: 10;
+    pointer-events: none;
 }
 
 .circle-fill-image {
     position: absolute;
     top: 0;
     left: 0;
+
     width: 640px;
     height: 640px;
+
     background-image: url('../img/Ellipse\ 8\ copy\ 2.png');
-    /* 이미지 경로로 변경 */
     background-size: cover;
     background-position: center;
+
     border-radius: 50%;
+
     opacity: 0;
-    /* 회전 후 등장하게 하려면 처음엔 숨김 */
+
     z-index: 2;
     pointer-events: none;
-    transition: opacity 1s ease;
 }
 
-.vertical-line {
+/* =========================
+   두 번째 화면 곡선 SVG
+========================= */
+
+.second-line-svg svg {
     position: absolute;
-    top: 50%;
+
+    width: 110vw;
+    height: auto;
+
     left: 50%;
+    top: 50%;
+
     transform: translate(-50%, -50%);
-    width: 3px;
+
+    display: block;
+    overflow: visible;
+}
+
+.second-line-svg svg {
+    position: absolute;
+
+    width: 100vw;
     height: 100vh;
-    /* 전체 높이 고정 */
-    background: linear-gradient(to bottom, var(--main-color) 0%, var(--main-color) 100%);
-    background-size: 100% 0%;
-    /* ✅ 처음엔 보이지 않게 */
-    background-repeat: no-repeat;
-    background-position: top;
-    opacity: 1;
-    z-index: 0;
+
+    left: 145%;
+    top: 55%;
+
+    transform: translate(-50%, -50%) scale(.95);
+
+    display: block;
+    overflow: visible;
 }
 
-.horizontal-line {
-    position: fixed;
-    top: 63%;
-    left: 95%;
-    transform: translateY(-50%);
-    height: 3px;
-    width: 0;
-    background-color: var(--main-color);
-    z-index: 0;
-    opacity: 0;
-}
-
-.horizontal_line_right {
-    position: fixed;
-    top: 63%;
-    left: 1080px;
-    transform: translateY(-50%);
-    height: 3px;
-    width: 0;
-    background-color: var(--main-color);
-    z-index: 10;
-    /* 높여서 가려지지 않도록 */
-    opacity: 0;
+.second-line-path {
+    fill: none;
 }
 
 .text {
@@ -614,6 +756,10 @@ body.scroll-lock {
     transition: none;
 }
 
+.history svg > path[stroke] {
+    stroke-width: 3px;
+}
+
 
 
 
@@ -629,14 +775,12 @@ body.scroll-lock {
 /* 애니메이션 대상 */
 .new-svg {
     position: fixed;
-    /* 화면 고정 */
     top: 80px;
     left: 250px;
-    transform: translate(-50%, -50%);
     opacity: 0;
     z-index: 20;
     pointer-events: none;
-    transform: scale(0.9);
+    transform-origin: center center;
 }
 
 /* 스케치 효과용 초기 상태 */
@@ -649,28 +793,37 @@ body.scroll-lock {
     /* 이게 있어야 GNB 클릭 가능 */
 }
 
+/* 기존 가운데 Experience 텍스트 사용 안 함 */
 .ex {
+  display: none !important;
+}
+
+
+/* 최종 Experience 정보 덩어리 */
+.ex2 {
   position: fixed;
+
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 50px;
-  font-weight: 500;
-  font-family: var(--IBM-Plex-Sans);
-  color: var(--main-color);
+
   opacity: 0;
+
+  z-index: 200;
+
   pointer-events: none;
+
+  transform-origin: center center;
 }
 
 .new-svg-2 {
   position: fixed;
   top: -50px;
-  left: 180px;
+  left: 140px;
   transform: translate(-50%, -50%) scale(0.9);
   opacity: 0;
   z-index: 20;
   pointer-events: none;
-  transform: scale(0.9);
+  transform: scale(1);
 }
 .new-svg-2 path {
   stroke-dasharray: 2000;
@@ -678,7 +831,7 @@ body.scroll-lock {
   opacity: 1;
 }
 
-.ex2 {
+/* .ex2 {
   position: fixed;
   top: 110px;
   left:600px;
@@ -687,7 +840,7 @@ body.scroll-lock {
   z-index: 20;
   pointer-events: none;
   transform: scale(0.9);
-}
+} */
 .ex2 path {
   stroke-dasharray: 2000;
   stroke-dashoffset: 2000;
@@ -722,3 +875,166 @@ body.scroll-lock {
 .fourth-scroll-trigger {
     height: 100vh;
 }
+
+
+/* =========================
+   레이어 순서 최종 정리
+========================= */
+
+/* Education */
+.history {
+  z-index: 100;
+}
+
+/* Experience */
+.new-svg,
+.ex,
+.new-svg-2,
+.ex2 {
+  z-index: 200;
+}
+
+/* GNB 무조건 최상단 */
+.side_gnb {
+  position: fixed !important;
+  z-index: 999999 !important;
+
+  /* 별도 최상위 레이어 생성 */
+  isolation: isolate;
+}
+
+/* =========================
+   마지막 화면 - 3번 GNB 클릭 유도
+========================= */
+
+.side_gnb.last-step li:nth-child(3) a {
+    background: var(--w-color);
+    border-color: var(--w-color);
+
+    animation: squareRotate 2.5s linear infinite;
+    transform-origin: center center;
+
+    transition: background 0.3s ease;
+}
+
+@keyframes squareRotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* hover → 회전 멈춤 + 라인 사각형 */
+.side_gnb.last-step li:nth-child(3):hover a {
+    animation-play-state: paused;
+
+    background: transparent;
+    border-color: var(--w-color);
+}
+
+
+
+/* =========================================
+   LAST SCENE : TOOL / SKILL
+========================================= */
+
+/* 왼쪽 SVG */
+.tool-svg {
+    position: fixed;
+    left: .5%;
+    top: 50%;
+    transform: translateY(-50%);
+
+    width: 51vw;
+    height: 100vh;
+
+    z-index: 2;
+
+    opacity: 0;
+
+    pointer-events: none;
+}
+
+.tool-svg svg {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    overflow: visible;
+}
+
+
+/* 오른쪽 Tool / Skill 묶음 */
+.tool-text {
+    position: fixed;
+
+    right: 20%;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    width: 30vw;
+
+    z-index: 3;
+
+    opacity: 0;
+
+    pointer-events: none;
+}
+
+.tool-text svg {
+    display: block;
+
+    width: 100%;
+    height: auto;
+}
+
+
+/* 혹시 마지막 장면에서 다른 요소가 덮는 것 방지 */
+.Six-scroll-trigger {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+}
+
+/* =========================================
+   LINE CURSOR
+========================================= */
+
+body,
+a,
+button {
+  cursor: none;
+}
+
+#line-cursor {
+  position: fixed;
+  inset: 0;
+
+  width: 100vw;
+  height: 100vh;
+
+  pointer-events: none;
+
+  z-index: 9999999;
+}
+
+@media (hover: none), (pointer: coarse) {
+  body,
+  a,
+  button {
+    cursor: auto;
+  }
+
+  #line-cursor {
+    display: none;
+  }
+}
+

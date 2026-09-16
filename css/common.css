@@ -36,6 +36,32 @@ body {
 
 /* gnb */
 
+/* =========================
+   마지막 모션 완료 후
+   2번째 GNB 클릭 유도
+========================= */
+
+.side_gnb.motion-end li:nth-child(2) a {
+    animation: lineClickHint .4s ease-in-out infinite alternate;
+    transform-origin: center center;
+}
+
+@keyframes lineClickHint {
+    from {
+        transform: rotate(-15deg);
+    }
+
+    to {
+        transform: rotate(15deg);
+    }
+}
+
+/* hover */
+.side_gnb.motion-end li:nth-child(2):hover a {
+    animation: none;
+    transform: rotate(-35deg);
+}
+
 .side_gnb {
     width: 67px;
     height: 320px;
@@ -64,55 +90,152 @@ body {
     align-items: center;
 }
 
-/* 공통 */
-.side_gnb a {
-    display: block;
-    width: 100%;
-    height: 100%;
+/* =========================
+   GNB 공통
+========================= */
+
+.side_gnb ul li {
+    position: relative;
 }
 
-/* 1번: 동그라미 버튼 */
+.side_gnb a {
+    display: block;
+}
+
+
+/* =========================
+   hover text
+========================= */
+
+.gnb_text {
+    position: absolute;
+    top: 50%;
+    left: calc(100% + 30px);
+
+    /* 박스 내부 정렬 */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    /* 박스 크기 */
+    height: 40px;
+    padding: 25px;
+    box-sizing: border-box;
+
+    /* 텍스트 */
+    color: var(--w-color);
+    font-size: 25px;
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: 0.2px;
+    white-space: nowrap;
+
+    /* 박스 디자인 */
+    border: 1.8px solid rgba(255, 255, 255, 0.55);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+
+    /* 처음에는 숨김 */
+    opacity: 0;
+    transform: translate(-8px, -50%);
+
+    pointer-events: none;
+
+    transition:
+        opacity 0.25s ease,
+        transform 0.25s ease;
+}
+
+
+/* li에 hover하면 텍스트 등장 */
+
+.side_gnb ul li:hover .gnb_text {
+    opacity: 1;
+    transform: translate(0, -50%);
+}
+
+
+/* 1번 : 동그라미 */
 
 .side_gnb ul li:nth-child(1) {
     position: relative;
+
+    width: 52px;   /* 다른 GNB와 동일한 영역 */
+    height: 30px;
+}
+
+.side_gnb ul li:nth-child(1) a {
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
     width: 30px;
     height: 30px;
+
     border-radius: 50%;
     background: var(--w-color);
-    transition: 0.3s;
+
+    transform: translate(-50%, -50%);
+
+    transition: transform 0.3s ease;
 }
 
-.side_gnb ul li:nth-child(1):hover {
-    transform: scale(1.4);
+.side_gnb ul li:nth-child(1):hover a {
+    transform: translate(-50%, -50%) scale(1.4);
 }
 
-/* 2번: 선형 회전 버튼 */
+
+/* =========================
+   2번 : 선
+========================= */
+
 .side_gnb ul li:nth-child(2) a {
     width: 52px;
     height: 5px;
+
     border-radius: 5px;
     background: var(--w-color);
-    transition: 0.1s;
+
+    transition: transform 0.3s ease;
 }
 
-.side_gnb ul li:nth-child(2) a:hover {
+.side_gnb ul li:nth-child(2):hover a {
     transform: rotate(-35deg);
 }
 
-/* 3번: 사각 테두리 버튼 */
+
+/* =========================
+   3번 : 사각형
+========================= */
+
 .side_gnb ul li:nth-child(3) a {
+    box-sizing: border-box;
+
     width: 52px;
     height: 52px;
+
     border-radius: 7px;
     border: 5px solid var(--w-color);
-    transition: 0.1s;
+
+    transition: background 0.3s ease;
 }
 
-.side_gnb ul li:nth-child(3) a:hover {
+.side_gnb ul li:nth-child(3):hover a {
     background: var(--w-color);
 }
 
+
+/* =========================
+   4번 : 3D
+========================= */
+
 .section_3d img {
+    display: block;
+
     transition: transform 0.8s ease;
     transform-origin: center center;
 }
@@ -123,26 +246,110 @@ body {
 
 /* 스크롤힌트 */
 
+/* =========================
+   SCROLL DOWN
+========================= */
+
 .scroll_hint {
     position: fixed;
-    right: 82px;
-    bottom: 56px;
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    border: 3px solid var(--w-color);
+
+    right: 70px;
+    bottom: 55px;
+
     display: flex;
     align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transform: translateY(30px);
-    /* 살짝 아래에 있게 */
+    gap: 14px;
+
+    z-index: 999999;
+
+    color: #fff;
+
+    opacity: 1;
+
     pointer-events: none;
-    z-index: 30;
+    transition: opacity 0.35s ease;
 }
 
-.intro.show_scroll .scroll_hint {
-    opacity: 1;
-    transform: translateY(0);
-    pointer-events: auto;
+
+.scroll_hint.hide {
+    opacity: 0;
+}
+
+
+/* 동그라미 */
+
+.scroll_circle {
+    position: relative;
+
+    width: 38px;
+    height: 38px;
+
+    border: 1.5px solid rgba(255, 255, 255, 0.9);
+    /* background: #ffffff; */
+    border-radius: 50%;
+
+    overflow: hidden;
+}
+
+
+/* 원 안의 V 화살표 */
+
+.scroll_arrow {
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    width: 10px;
+    height: 10px;
+
+    border-right: 1px solid #fff;
+    border-bottom: 1px solid #fff;
+
+    transform:
+        translate(-50%, -50%)
+        rotate(45deg);
+
+    animation:
+        scrollArrowPass 1s
+        ease-in-out infinite;
+}
+
+
+/* 위 → 아래로 통과 */
+
+@keyframes scrollArrowPass {
+
+    0% {
+        top: 15%;
+        opacity: 0;
+    }
+
+    20% {
+        opacity: 1;
+    }
+
+    70% {
+        opacity: 1;
+    }
+
+    100% {
+        top: 85%;
+        opacity: 0;
+    }
+
+}
+
+
+/* SCROLL DOWN */
+
+.scroll_text {
+    font-family: var(--IBM-Plex-Sans);
+
+    font-size: 18px;
+    font-weight: 300;
+
+    letter-spacing: 0.3px;
+
+    white-space: nowrap;
 }

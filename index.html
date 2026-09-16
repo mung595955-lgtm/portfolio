@@ -29,7 +29,7 @@
     <script src="https://kit.fontawesome.com/e9623bd7b2.js" crossorigin="anonymous"></script>
 
     <!-- 파비콘 -->
-    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+     <link rel="icon" type="image/png" href="./img/favicon.png">
 
     <!-- swiper css -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
@@ -56,21 +56,43 @@
             </div>
         </div><!-- //.intro -->
 
-        <nav class="side_gnb">
-            <ul>
-                <li><a href="#dot" class="section_dot"></a></li>
-                <li><a href="./line/index.html" class="section_line"></a></li>
-                <li><a href="./space_re/space.html" class="section_sapce"></a></li>
-                <li><a href="./3D/index.html" class="section_3d"><img src="img/gnb4.png" alt="gnb4"></a></li>
-            </ul>
-        </nav><!-- //.side_gnb -->
+<nav class="side_gnb">
+    <ul>
+        <li>
+            <a href="#dot" class="section_dot_btn"></a>
+            <span class="gnb_text">Background</span>
+        </li>
 
-        <div class="scroll_hint">
-            <svg width="36" height="20" viewBox="0 0 36 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M2 2L18 18L34 2" stroke="white" stroke-width="3" stroke-linecap="round"
-                    stroke-linejoin="round" />
-            </svg>
-        </div>
+        <li>
+            <a href="./line/index.html" class="section_line"></a>
+            <span class="gnb_text">Capabilities</span>
+        </li>
+
+        <li>
+            <a href="./space_re/space.html" class="section_sapce"></a>
+            <span class="gnb_text">Project</span>
+        </li>
+
+        <li>
+            <a href="./3D/index.html" class="section_3d">
+                <img src="img/gnb4.png" alt="gnb4">
+            </a>
+            <span class="gnb_text">Goal</span>
+        </li>
+    </ul>
+</nav>
+
+<div class="scroll_hint">
+
+    <span class="scroll_circle">
+        <span class="scroll_arrow"></span>
+    </span>
+
+    <span class="scroll_text">
+        SCROLL DOWN
+    </span>
+
+</div>
 
 
 
@@ -166,6 +188,51 @@
 
 
     </div><!-- //.wrapper -->
+
+    <!-- Gooey Cursor -->
+<div class="gooey-cursor">
+  <span class="cursor-dot"></span>
+  <span class="cursor-dot"></span>
+  <span class="cursor-dot"></span>
+  <span class="cursor-dot"></span>
+</div>
+
+<!-- Gooey Filter -->
+<svg class="cursor-filter-svg"
+     xmlns="http://www.w3.org/2000/svg">
+
+  <defs>
+
+    <filter id="cursor-goo">
+
+      <feGaussianBlur
+        in="SourceGraphic"
+        stdDeviation="7"
+        result="blur"
+      />
+
+      <feColorMatrix
+        in="blur"
+        mode="matrix"
+        values="
+          1 0 0 0 0
+          0 1 0 0 0
+          0 0 1 0 0
+          0 0 0 20 -8
+        "
+        result="goo"
+      />
+
+      <feBlend
+        in="SourceGraphic"
+        in2="goo"
+      />
+
+    </filter>
+
+  </defs>
+
+</svg>
 </body>
 
 </html>
