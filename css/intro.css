@@ -99,11 +99,11 @@
 }
 
 .bounce-default {
-    animation: bounce-default 1.3s ease-in-out forwards;
+    animation: bounce-default 1s ease-in-out forwards;
 }
 
 .bounce-final {
-    animation: bounce-final 1.3s ease-in-out forwards;
+    animation: bounce-final 1s ease-in-out forwards;
 }
 
 /* text */

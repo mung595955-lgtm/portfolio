@@ -5,7 +5,6 @@ $(function () {
 
     /* =========================================
        다른 페이지 GNB에서 Background로 들어온 경우
-       intro.html#background
     ========================================= */
 
     const isBackgroundEntry =
@@ -14,31 +13,28 @@ $(function () {
 
     if (isBackgroundEntry) {
 
-        // 인트로 화면 바로 숨기기
+        // 인트로 바로 숨기기
         $(".intro").hide();
 
         // 스크롤 맨 위
         $("html, body").scrollTop(0);
 
-        /*
-           dot.js가 introComplete 이벤트를
-           먼저 등록할 시간을 준 뒤 실행
-        */
+        // dot.js가 이벤트를 등록한 뒤 실행
         setTimeout(() => {
+
             document.dispatchEvent(
                 new Event("introComplete")
             );
+
         }, 50);
 
-        // ★ 중요
-        // 아래 인트로 애니메이션은 실행하지 않음
         return;
     }
 
 
 
     /* =========================================
-       여기부터 기존 INTRO 코드
+       SCROLL RESET
     ========================================= */
 
     $(window).on("load", function () {
@@ -51,15 +47,27 @@ $(function () {
     }
 
 
+
+    /* =========================================
+       ELEMENT
+    ========================================= */
+
     const bar =
         document.getElementById("bar");
 
     const ball =
         document.getElementById("intro_dot");
 
-    const intro =
-        document.querySelector(".intro");
+    const texts =
+        document.querySelectorAll(
+            ".intro_text span"
+        );
 
+
+
+    /* =========================================
+       PROGRESS BAR 생성
+    ========================================= */
 
     const colors = [
         "#7973F3",
@@ -85,8 +93,6 @@ $(function () {
     ];
 
 
-    /* progress bar 생성 */
-
     for (let i = 0; i < 17; i++) {
 
         const span =
@@ -97,96 +103,64 @@ $(function () {
     }
 
 
-    const texts =
-        document.querySelectorAll(
-            ".intro_text span"
-        );
-
-
     const spans =
         document.querySelectorAll(
             ".progress-bar span"
         );
 
 
-    let bounceCount = 0;
-    let textIndex = 0;
+
+    /* =========================================
+       INTRO 설정
+    ========================================= */
+
+    // 점 한 번 점프하는 시간
+    const BOUNCE_TIME = 1000;
+
+    // 점이 최고점까지 올라가는 시간
+    const HALF_TIME = BOUNCE_TIME / 2;
+
+    /*
+       총 진행 시간
+
+       1번째 점프 = 1초
+       2번째 점프 = 1초
+       마지막 점프 최고점 = 0.5초
+
+       총 약 2.5초
+    */
+const TOTAL_TIME =
+    BOUNCE_TIME * 3;
+
+    // 17칸이 전체 시간 동안 채워짐
+    const BAR_TIME =
+        TOTAL_TIME / spans.length;
+
+
+    let currentText = 0;
     let barIndex = 0;
 
 
 
     /* =========================================
-       DOT BOUNCE
+       TEXT 변경
     ========================================= */
 
-    function playBounce() {
+    function changeText(index) {
 
-        bounceCount++;
-
-
-        ball.classList.remove(
-            "bounce-default",
-            "bounce-final"
-        );
+        texts.forEach((text) => {
+            text.classList.remove("active");
+        });
 
 
-        void ball.offsetWidth;
+        if (texts[index]) {
 
-
-        if (bounceCount < 5) {
-
-            ball.classList.add(
-                "bounce-default"
-            );
-
-            setTimeout(
-                playBounce,
-                1300
-            );
-
-        } else {
-
-            ball.classList.add(
-                "bounce-final"
-            );
+            texts[index]
+                .classList.add("active");
 
         }
 
     }
-
-
-    playBounce();
-
-
-
-    /* =========================================
-       INTRO TEXT
-    ========================================= */
-
-    const textInterval =
-        setInterval(() => {
-
-            texts.forEach(el =>
-                el.classList.remove("active")
-            );
-
-
-            if (texts[textIndex]) {
-
-                texts[textIndex]
-                    .classList.add("active");
-
-                textIndex++;
-
-            } else {
-
-                clearInterval(
-                    textInterval
-                );
-
-            }
-
-        }, 1300);
 
 
 
@@ -206,46 +180,144 @@ $(function () {
 
             } else {
 
-                clearInterval(
-                    barInterval
-                );
-
-                clearInterval(
-                    textInterval
-                );
-
-
-                /* =================================
-                   INTRO 종료
-                ================================= */
-
-                setTimeout(() => {
-
-                    document
-                        .querySelector(".progress-bar")
-                        .style.display = "none";
-
-
-                    document
-                        .querySelector(".intro_text")
-                        .style.display = "none";
-
-
-                    /*
-                       dot.js에게
-                       인트로가 끝났다고 전달
-                    */
-
-                    document.dispatchEvent(
-                        new Event(
-                            "introComplete"
-                        )
-                    );
-
-                }, 1300);
+                clearInterval(barInterval);
 
             }
 
-        }, 300);
+        }, BAR_TIME);
+
+
+
+    /* =========================================
+       INTRO 종료
+    ========================================= */
+
+    function finishIntro() {
+
+        clearInterval(barInterval);
+
+
+        // 남은 바가 있다면 전부 채우기
+        spans.forEach((span, index) => {
+
+            span.style.background =
+                colors[index];
+
+        });
+
+
+        document
+            .querySelector(".progress-bar")
+            .style.display = "none";
+
+
+        document
+            .querySelector(".intro_text")
+            .style.display = "none";
+
+
+        // dot.js 시작
+        document.dispatchEvent(
+            new Event("introComplete")
+        );
+
+    }
+
+
+
+    /* =========================================
+       DOT BOUNCE
+    ========================================= */
+
+    function bounce(index) {
+
+        ball.classList.remove(
+            "bounce-default",
+            "bounce-final"
+        );
+
+
+        // animation 재실행
+        void ball.offsetWidth;
+
+
+
+        /* -------------------------------------
+           마지막 점프
+        ------------------------------------- */
+
+if (index === 2) {
+
+    ball.classList.add(
+        "bounce-final"
+    );
+
+    /* 점이 가운데로 완전히 돌아온 뒤 */
+    setTimeout(() => {
+
+        /* HEE JUNG 스르륵 사라짐 */
+        gsap.to(".intro_text", {
+            opacity: 0,
+            duration: 0.4,
+            ease: "power2.out",
+
+            onComplete: () => {
+
+                /* 텍스트가 사라진 상태로 잠깐 멈춤 */
+                setTimeout(() => {
+
+                    finishIntro();
+
+                }, 450);
+
+            }
+        });
+
+    }, BOUNCE_TIME);
+
+    return;
+}
+
+
+
+        /* -------------------------------------
+           일반 점프
+        ------------------------------------- */
+
+        ball.classList.add(
+            "bounce-default"
+        );
+
+
+        /*
+           점이 올라갔다가
+           완전히 내려오면 텍스트 변경
+        */
+
+        setTimeout(() => {
+
+            currentText++;
+
+            changeText(currentText);
+
+
+            // 다음 점프
+            bounce(index + 1);
+
+        }, BOUNCE_TIME);
+
+    }
+
+
+
+    /* =========================================
+       INTRO START
+    ========================================= */
+
+    // 처음은 HELLO
+    changeText(0);
+
+    // 첫 점프 시작
+    bounce(0);
 
 });

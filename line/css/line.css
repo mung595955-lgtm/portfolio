@@ -208,7 +208,7 @@ body.scroll-lock {
 .text-up {
     font-size: 80px;
     font-weight: 700;
-    font-family: var(--IBM-Plex-Sans);
+    font-family: "Playfair Display", serif;
     color: var(--main-color);
     opacity: 0;
     transform: translateY(70px);
@@ -217,7 +217,8 @@ body.scroll-lock {
 .text-down {
     font-size: 70px;
     color: var(--text-gray);
-    font-family: var(--Noto-Sans);
+    font-family: "Noto Sans KR", sans-serif;
+    font-weight: 400;
     margin-top: 10px;
     opacity: 0;
     transform: translateY(-70px);
@@ -556,6 +557,7 @@ body.scroll-lock {
     left: 0;
     width: 640px;
     height: 640px;
+        z-index: 3;
 }
 
 .spin-dot {
@@ -580,35 +582,25 @@ body.scroll-lock {
     height: 640px;
 
     background-image: url('../img/Ellipse\ 8\ copy\ 2.png');
-    background-size: cover;
+
+    /* 여기 수정 */
+    background-size: contain;
     background-position: center;
+    background-repeat: no-repeat;
 
     border-radius: 50%;
-
     opacity: 0;
 
     z-index: 2;
     pointer-events: none;
 }
 
+
 /* =========================
    두 번째 화면 곡선 SVG
 ========================= */
 
-.second-line-svg svg {
-    position: absolute;
 
-    width: 110vw;
-    height: auto;
-
-    left: 50%;
-    top: 50%;
-
-    transform: translate(-50%, -50%);
-
-    display: block;
-    overflow: visible;
-}
 
 .second-line-svg svg {
     position: absolute;
@@ -616,10 +608,10 @@ body.scroll-lock {
     width: 100vw;
     height: 100vh;
 
-    left: 145%;
-    top: 55%;
+    left: 90%;
+    top:96%;
 
-    transform: translate(-50%, -50%) scale(.95);
+    transform: translate(-50%, -70%) scaleX(-1) scale(0.88);
 
     display: block;
     overflow: visible;
@@ -629,32 +621,111 @@ body.scroll-lock {
     fill: none;
 }
 
+/* =========================
+   아래 소개 문장
+========================= */
+/* 소개 문장도 네트워크 아래로 */
 .text {
     position: absolute;
-    left: 750px;
-    top: 80px;
-    width: 520px;
+
+    left: 1040px;
+    top: 480px;
+
+    width: 650px;
+
+    transform: translateX(-50%);
+
+    z-index: 20;
 }
+
+
 
 .text p {
     font-family: var(--Noto-Sans);
-    font-size: 48px;
+
+    font-size: 34px;
     font-weight: 300;
+
+    line-height: 1.85;
+    letter-spacing: -1px;
+
     color: #333;
-    line-height: 120px;
+
+    text-align: center;
+
     opacity: 0;
-    /* 처음엔 숨김 */
-    transform: translateY(20px);
+    transform: translateY(25px);
 }
 
-.text p span {
-    font-weight: 500;
+
+/* 점 / 선 / 면 */
+.text p .keyword {
+    font-weight: 600;
+    color: #333;
 }
 
+
+/* 입체적 창조 */
 .text p strong {
-    font-weight: 700;
-    color: var(--main-color);
+    font-weight: 600;
+    color: #688EFF;
 }
+
+/* =========================
+   NETWORK MOTION
+========================= */
+
+.network-svg {
+    position: absolute;
+
+    left: 1030px;
+    top: 0px;
+
+   width: 470px;
+height: 470px;
+
+    transform: translateX(-50%);
+
+    z-index: 20;
+    overflow: visible;
+    pointer-events: none;
+}
+
+/* 점 전부 보라색 */
+#network-dots circle {
+    fill: #7973F3 !important;
+
+    transform-box: fill-box;
+    transform-origin: center;
+}
+
+
+/* 선 전부 보라색 */
+#network-lines line {
+    fill: none;
+    stroke: #7973F3 !important;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+
+/* 면 */
+/* SVG 원본의 <g opacity="0"> 해제 */
+#network-faces {
+    opacity: 1 !important;
+}
+
+#network-faces polygon {
+    fill: #7973F3 !important;
+    fill-opacity: 0.18;
+    stroke: none;
+
+    transform-box: fill-box;
+    transform-origin: center;
+}
+
+
 
 
 
@@ -971,30 +1042,180 @@ body.scroll-lock {
 }
 
 
-/* 오른쪽 Tool / Skill 묶음 */
+/* =========================================
+   오른쪽 TOOL / SKILL
+========================================= */
+
 .tool-text {
     position: fixed;
 
-    right: 20%;
+    right: 6%;
     top: 50%;
+
+    width: 46vw;
+    max-width: 880px;
+    height: 650px;
 
     transform: translateY(-50%);
 
-    width: 30vw;
-
     z-index: 3;
-
     opacity: 0;
 
     pointer-events: none;
 }
 
-.tool-text svg {
+
+/* =========================================
+   Tool / Skill 타이틀
+========================================= */
+
+.tool-title {
+    position: absolute;
+
+    top: 5px;
+    left: 155px;
+
+    margin: 0;
+
+    font-family: "Playfair Display", serif;
+    font-size: 60px;
+    font-weight: 600;
+    line-height: 1;
+
+    color: #688EFF;
+
+    z-index: 5;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================
+   투명 글래스 카드
+========================================= */
+
+.tool-card {
+    position: absolute;
+
+    left: -130px;
+
+    width: 90%;
+    height: 155px;
+
+    border-radius: 22px;
+
+    /* About me처럼 배경이 비치는 투명 카드 */
+    background: rgba(255, 255, 255, 0.08);
+
+border: 1px solid rgba(255, 255, 255, 0.65);
+
+box-shadow:
+    0 12px 35px rgba(121, 115, 243, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
+
+backdrop-filter: blur(10px);
+-webkit-backdrop-filter: blur(10px);
+
+    z-index: 1;
+
+    
+}
+
+
+
+
+.tool-card-front {
+    top: 100px;
+}
+
+.tool-card-design {
+    top: 270px;
+}
+
+.tool-card-3d {
+    top: 440px;
+}
+
+.tool-front-row { transform: translateY(-20px); }  
+
+.tool-design-row { transform: translateY(5px); }  
+
+.tool-3d-row { transform: translateY(32px); }  
+
+/* =========================================
+   왼쪽 카테고리명
+========================================= */
+
+.tool-category {
+    position: absolute;
+
+left: 0;
+
+top: 10%;
+
+width: 148px;
+
+height: 80%;
+
+display: flex;
+
+align-items: center;
+
+justify-content: center;
+
+border-right: 2.5px solid rgba(121, 115, 243, 0.15);
+
+font-family: "Noto Sans KR", sans-serif;
+
+font-size: 16px;
+
+font-weight: 400;
+
+letter-spacing: 0;
+
+color: rgba(70, 70, 85, 0.72);
+
+z-index: 4;
+
+}
+
+
+
+/* =========================================
+   기존 아이콘 SVG
+========================================= */
+
+.tool-text > svg {
+    position: absolute;
+
+    /*
+       SVG 자체를 위로 조금 당겨서
+       아이콘 + 아이콘 이름까지 카드 안에 넣음
+    */
+    top: -2px;
+    left: 0px;
+
     display: block;
 
-    width: 100%;
-    height: auto;
+    /* 기존보다 전체적으로 축소 */
+    width: calc(100% - 230px);
+    height: 550px;
+
+    z-index: 2;
+
+    overflow: visible;
+    
+
+        
 }
+
+.tool-icons-svg {
+
+overflow: visible !important;
+
+}
+
+
 
 
 /* 혹시 마지막 장면에서 다른 요소가 덮는 것 방지 */

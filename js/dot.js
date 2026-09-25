@@ -257,6 +257,8 @@ $(window)
 
         isAnimating = true;
 
+
+
 currentDotTimeline = gsap.timeline({
 
     onComplete: () => {
@@ -397,244 +399,114 @@ currentDotTimeline.timeScale(1.1);
                 );
 
 
-
-                /* =================================
-                   NEXT TEXT 위로 사라짐
-                ================================= */
-
-                tl2.to(".next_text", {
-
-                    y: "-=120vh",
-
-                    scale: 0.05,
-
-                    opacity: 0,
-
-                    duration: 4.5,
-
-                    ease: "power2.out"
-
-                }, "explode+=0.3");
-
-
-
-                /* =================================
-                   나머지 점 숨김
-                ================================= */
-
-                tl2.to(
-                    ".dot_item:not(:nth-child(5))",
-                    {
-
-                        opacity: 0,
-
-                        duration: 0,
-
-                        onComplete: () => {
-
-                            document
-                                .querySelectorAll(".dot_item")
-                                .forEach((el, i) => {
-
-                                    if (i !== 4) {
-                                        el.style.display = "none";
-                                    }
-
-                                });
-
-                        }
-
-                    },
-
-                    "explode"
-                );
-
-
-
-                /* =================================
-                   가운데 점
-                ================================= */
-
-                tl2.to(
-                    ".dot_item:nth-child(5)",
-                    {
-
-                        x: 0,
-                        y: -300,
-
-                        duration: 1.2,
-
-                        ease: "power2.out"
-
-                    },
-
-                    "explode+=0.3"
-                );
-
-
-
-                /* =================================
-                   BIG DOT 이동
-                ================================= */
-
-                tl2.to(".big_dot", {
-
-                    x: -200,
-                    y: -150,
-
-                    opacity: 1,
-
-                    scale: 1.5,
-
-                    duration: 1.2,
-
-                    ease: "power2.out"
-
-                }, "explode+=0.3");
-
-
-
-                /* =================================
-                   SMALL DOT 이동
-                ================================= */
-
-                tl2.to(".small_dot", {
-
-                    x: 180,
-                    y: -120,
-
-                    opacity: 1,
-
-                    scale: 1,
-
-                    duration: 1.2,
-
-                    ease: "power2.out"
-
-                }, "explode+=0.3");
-
-
-
-                /* =================================
-                   ABOUT ME
-                ================================= */
-
-                tl2.fromTo(".third_text",
-
-                    {
-                        opacity: 0,
-                        top: 1000
-                    },
-
-                    {
-                        opacity: 1,
-                        top: 300,
-
-                        duration: 2,
-
-                        ease: "power2.out"
-                    },
-
-                    ">-0.3"
-                );
-
-
-
-                /* =================================
-                   점 다시 모으기
-                ================================= */
-
-                tl2.to(
-                    ".dot_item:nth-child(5)",
-                    {
-
-                        x: 0,
-                        y: -550,
-
-                        duration: 1.2,
-
-                        ease: "power2.out"
-
-                    },
-
-                    "<"
-                );
-
-
-                tl2.to(".big_dot", {
-
-                    x: -20,
-                    y: -280,
-
-                    scale: 1.4,
-
-                    duration: 1.2,
-
-                    ease: "power2.out"
-
-                }, "<");
-
-
-                tl2.to(".small_dot", {
-
-                    x: -50,
-                    y: -300,
-
-                    scale: 1,
-
-                    duration: 1.2,
-
-                    ease: "power2.out"
-
-                }, "<");
-
-
-
-                /* =================================
-                   BIG / SMALL DOT 사라짐
-                ================================= */
-
-                tl2.to(
-                    [".big_dot", ".small_dot"],
-                    {
-
-                        opacity: 0,
-
-                        scale: 0.5,
-
-                        duration: 0.8,
-
-                        ease: "power1.inOut"
-
-                    },
-
-                    "-=1"
-                );
-
-
-
-                /* =================================
-                   About + main dot 왼쪽 이동
-                ================================= */
-
-                tl2.to(
-                    [
-                        ".third_text",
-                        ".dot_item:nth-child(5)"
-                    ],
-                    {
-
-                        x: "-=500",
-
-                        duration: 1.5,
-
-                        ease: "power2.inOut"
-
-                    },
-
-                    "<"
-                );
-
+tl2.to({}, { duration: 0.6 });
+
+/* =================================
+   BIG DOT
+   왼쪽 위로 퍼지며 흐려짐
+================================= */
+
+tl2.to(".big_dot", {
+    x: "-=240",
+    y: "-=75vh",
+    opacity: 0,
+    filter: "blur(30px)",
+    scale: 1,
+    duration: 1.1,
+    ease: "power2.inOut"
+}, "exit");
+
+
+/* =================================
+   SMALL DOT
+   오른쪽 위로 퍼지며 흐려짐
+================================= */
+
+tl2.to(".small_dot", {
+    x: "+=240",
+    y: "-=80vh",
+    opacity: 0,
+    filter: "blur(30px)",
+    scale: 0.9,
+    duration: 1.05,
+    ease: "power2.inOut"
+}, "exit");
+
+
+/* =================================
+   TEXT + 가운데 점
+   살짝 늦게 위로 흐르며 사라짐
+================================= */
+
+tl2.to(
+    [
+        ".next_text",
+        ".dot_item:nth-child(5)"
+    ],
+    {
+        y: "-=78vh",
+        opacity: 0,
+        filter: "blur(30px)",
+        duration: 1,
+        ease: "power2.inOut"
+    },
+    "exit+=0.08"
+);
+
+
+/* =================================
+   나머지 점 숨김
+================================= */
+
+tl2.to(
+    ".dot_item:not(:nth-child(5))",
+    {
+        opacity: 0,
+        duration: 0,
+
+        onComplete: () => {
+            document
+                .querySelectorAll(".dot_item")
+                .forEach((el, i) => {
+
+                    if (i !== 4) {
+                        el.style.display = "none";
+                    }
+
+                });
+        }
+    },
+    "exit"
+);
+
+
+/* =================================
+   ABOUT ME
+   처음부터 최종 왼쪽 위치
+================================= */
+
+tl2.set(".third_text", {
+    top: 300,
+    x: -500,
+    y: 0
+});
+
+tl2.to(".third_text", {
+    opacity: 1,
+    duration: 0.8,
+    ease: "power2.out"
+});
+
+
+/* =================================
+   카드 점프용 점 준비
+================================= */
+
+tl2.set(".dot_item:nth-child(5)", {
+    x: -500,
+    y: -550,
+    opacity: 1
+});
 
 
                 /* =================================
@@ -892,261 +764,286 @@ currentDotTimeline.timeScale(1.1);
 
 
 
-    /* =========================================
-       BACKGROUND RESET
-    ========================================= */
-
     function resetDotSection() {
 
+    /* =========================================
+       1. 진행 중 Timeline 완전히 제거
+    ========================================= */
 
-            /* 스크롤 힌트 다시 표시 */
+    if (currentDotTimeline) {
+        currentDotTimeline.kill();
+        currentDotTimeline = null;
+    }
+
+    motionPlayed = false;
+    isAnimating = false;
+
+    document.body.style.overflow = "auto";
+
+
+    /* =========================================
+       2. 스크롤 힌트 다시 표시
+    ========================================= */
+
     document
         .querySelector(".scroll_hint")
         ?.classList.remove("hide");
 
-        /* 2번째 GNB 클릭 유도 종료 */
-document
-    .querySelector(".side_gnb")
-    ?.classList.remove("motion-end");
+
+    /* =========================================
+       3. GNB 클릭 유도 종료
+    ========================================= */
+
+    document
+        .querySelector(".side_gnb")
+        ?.classList.remove("motion-end");
 
 
-        /* ==============================
-           진행 중 Timeline 제거
-        ============================== */
+    /* =========================================
+       4. 모든 기존 GSAP 애니메이션 제거
+    ========================================= */
 
-        if (currentDotTimeline) {
-
-            currentDotTimeline.kill();
-
-            currentDotTimeline = null;
-
-        }
-
-
-        motionPlayed = false;
-
-        isAnimating = false;
-
-
-        document.body.style.overflow = "auto";
+    gsap.killTweensOf([
+        ".center_text",
+        ".dots_container",
+        ".dot_item",
+        ".next_text",
+        ".big_dot",
+        ".small_dot",
+        ".third_text",
+        "#dot_jump",
+        ".info_group"
+    ]);
 
 
+    /* =========================================
+       5. 8개 기본 점 완전 초기화
+    ========================================= */
 
-        /* ==============================
-           기존 GSAP animation 제거
-        ============================== */
+    document
+        .querySelectorAll(".dot_item")
+        .forEach(dot => {
 
-        gsap.killTweensOf([
-            ".center_text",
-            ".dots_container",
-            ".dot_item",
-            ".next_text",
-            ".big_dot",
-            ".small_dot",
-            ".third_text",
-            "#dot_jump",
-            ".info_group"
-        ]);
+            /* JS에서 직접 넣은 스타일 제거 */
+            dot.style.removeProperty("opacity");
+            dot.style.removeProperty("filter");
+            dot.style.display = "block";
 
-
-
-        /* ==============================
-           8개 점 복구
-        ============================== */
-
-        document
-            .querySelectorAll(".dot_item")
-            .forEach(dot => {
-
-                dot.style.display = "block";
-
-                gsap.set(dot, {
-
-                    x: 0,
-                    y: 0,
-
-                    opacity: 1,
-
-                    scale: 1
-
-                });
-
+            gsap.set(dot, {
+                x: 0,
+                y: 0,
+                scale: 1,
+                opacity: 1,
+                filter: "blur(0px)"
             });
 
-
-
-        /* ==============================
-           dots container
-        ============================== */
-
-        gsap.set(".dots_container", {
-
-            opacity: 1,
-
-            scale: 1
-
         });
 
 
+    /* =========================================
+       6. 점 컨테이너 초기화
+    ========================================= */
 
-        /* ==============================
-           중앙 텍스트
-        ============================== */
+    gsap.set(".dots_container", {
+        opacity: 1,
+        scale: 1
+    });
 
-        gsap.set(".center_text", {
 
-            opacity: 1,
+    /* =========================================
+       7. 첫 화면 중앙 텍스트 초기화
+    ========================================= */
 
+    gsap.set(".center_text", {
+        x: 0,
+        y: 0,
+        scale: 1,
+        opacity: 1,
+        filter: "blur(0px)"
+    });
+
+
+    /* =========================================
+       8. 두 번째 텍스트 완전 초기화
+    ========================================= */
+
+    gsap.set(".next_text", {
+        clearProps: "transform"
+    });
+
+    gsap.set(".next_text", {
+        x: 0,
+        y: 0,
+        scale: 1,
+        opacity: 0,
+        filter: "blur(0px)"
+    });
+
+
+    /* =========================================
+       9. BIG DOT 완전 초기화
+    ========================================= */
+
+    gsap.set(".big_dot", {
+        x: 0,
+        y: 0,
+        scale: 0,
+        opacity: 0,
+        filter: "blur(0px)"
+    });
+
+
+    /* =========================================
+       10. SMALL DOT 완전 초기화
+    ========================================= */
+
+    gsap.set(".small_dot", {
+        x: 0,
+        y: 0,
+        scale: 0,
+        opacity: 0,
+        filter: "blur(0px)"
+    });
+
+
+    /* =========================================
+       11. ABOUT ME 초기화
+    ========================================= */
+
+    gsap.set(".third_text", {
+        x: 0,
+        y: 0,
+        top: 1000,
+        opacity: 0,
+        filter: "blur(0px)"
+    });
+
+
+    /* =========================================
+       12. Jump Dot 초기화
+    ========================================= */
+
+    const jumpDot =
+        document.getElementById("dot_jump");
+
+    if (jumpDot) {
+
+        jumpDot.style.removeProperty("opacity");
+        jumpDot.style.removeProperty("filter");
+
+        gsap.set(jumpDot, {
             x: 0,
             y: 0,
-
-            scale: 1
-
+            opacity: 0,
+            filter: "blur(0px)"
         });
+    }
 
 
+    /* =========================================
+       13. 카드 초기화
+    ========================================= */
 
-        /* ==============================
-           두 번째 텍스트
-        ============================== */
+    gsap.set(".info_group", {
+        opacity: 0,
+        y: 40,
+        filter: "blur(0px)"
+    });
 
-        gsap.set(".next_text", {
+
+    /* =========================================
+       14. Background 유지
+    ========================================= */
+
+    const bg =
+        document.querySelector(".dot_bg");
+
+    if (bg) {
+        bg.classList.add("expand");
+    }
+
+
+    /* =========================================
+       15. 점 위치 다시 계산
+       현재 깨끗한 초기 상태 기준
+    ========================================= */
+
+/* =========================================
+   첫 화면 완전 복구
+========================================= */
+
+/* 컨테이너에 남아있는 transform 자체 제거 */
+gsap.set(".dots_container", {
+    clearProps: "transform"
+});
+
+gsap.set(".dots_container", {
+    opacity: 1,
+    scale: 1,
+    rotation: 0,
+    transformOrigin: "50% 50%"
+});
+
+
+/* 각 점도 transform 완전히 제거 */
+document
+    .querySelectorAll(".dot_item")
+    .forEach(dot => {
+
+        gsap.set(dot, {
             clearProps: "transform"
         });
 
-        gsap.set(".next_text", {
-            opacity: 0
-        });
-
-
-
-        /* ==============================
-           BIG / SMALL DOT
-        ============================== */
-
-        gsap.set(
-            [".big_dot", ".small_dot"],
-            {
-
-                x: 0,
-                y: 0,
-
-                opacity: 0,
-
-                scale: 0
-
-            }
-        );
-
-
-
-        /* ==============================
-           About me
-        ============================== */
-
-        gsap.set(".third_text", {
-
-            opacity: 0,
-
+        gsap.set(dot, {
             x: 0,
-
-            top: 1000
-
+            y: 0,
+            scale: 1,
+            opacity: 1,
+            filter: "blur(0px)"
         });
 
+    });
 
 
-        /* ==============================
-           Jump dot
-        ============================== */
+/* 초기 위치가 복구된 다음 좌표 다시 계산 */
+requestAnimationFrame(() => {
 
-        gsap.set("#dot_jump", {
+    calculateDotPosition();
 
-            opacity: 0,
-
-            x: 0,
-            y: 0
-
-        });
-
-
-
-        /* ==============================
-           Profile
-        ============================== */
-
-        gsap.set(".info_group", {
-
-            opacity: 0,
-
-            y: 40
-
-        });
-
-
-
-        /* ==============================
-           Background
-        ============================== */
-
-        const bg =
-            document.querySelector(".dot_bg");
-
-
-        if (bg) {
-
-            bg.classList.add("expand");
-
+    /* 처음 진입했을 때와 동일하게 한 바퀴 */
+    gsap.fromTo(
+        ".dots_container",
+        {
+            rotation: 0
+        },
+        {
+            rotation: 360,
+            duration: 2,
+            ease: "power2.inOut",
+            overwrite: true
         }
+    );
+
+});
 
 
-
-        /* ==============================
-           첫 화면 재등장
-        ============================== */
-
-        gsap.fromTo(
-            ".dots_container",
-
-            {
-                opacity: 0,
-                scale: 0.95
-            },
-
-            {
-                opacity: 1,
-                scale: 1,
-
-                duration: 0.7,
-
-                ease: "power2.out"
-            }
-
-        );
-
-
-        gsap.fromTo(
-            ".center_text",
-
-            {
-                opacity: 0,
-                y: 15
-            },
-
-            {
-                opacity: 1,
-                y: 0,
-
-                duration: 0.7,
-
-                delay: 0.15,
-
-                ease: "power2.out"
-            }
-
-        );
-
+/* Dot, My beginning */
+gsap.fromTo(
+    ".center_text",
+    {
+        opacity: 0,
+        y: 15
+    },
+    {
+        opacity: 1,
+        y: 0,
+        duration: 0.7,
+        delay: 0.15,
+        ease: "power2.out",
+        overwrite: true
     }
+);
+}
 
 
 

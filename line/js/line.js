@@ -472,6 +472,16 @@ function runSecondMotion() {
   gsap.set(".circle-fill-image", {
     opacity: 0
   });
+  /* 네트워크 + 텍스트 처음에는 숨김 */
+gsap.set(".network-svg", {
+  opacity: 0,
+  y: 20
+});
+
+gsap.set(".text", {
+  opacity: 0,
+  y: 20
+});
 
 
   /* =============================
@@ -500,16 +510,216 @@ if (secondLinePath) {
     opacity: 1
   });
 
+  /* =========================================
+   점 → 선 → 면 NETWORK MOTION
+========================================= */
+
+const networkDots =
+    gsap.utils.toArray("#network-dots circle");
+
+const networkLines =
+    gsap.utils.toArray("#network-lines line");
+
+const allNetworkFaces =
+    gsap.utils.toArray("#network-faces polygon");
+
+/* 등장시킬 면만 */
+const networkFaces = [
+    allNetworkFaces[0],   // 위
+    allNetworkFaces[2],
+
+    allNetworkFaces[5],   // 왼쪽
+    allNetworkFaces[7],
+
+    allNetworkFaces[9],   // 중앙
+    allNetworkFaces[11],
+
+    allNetworkFaces[13],  // 오른쪽
+    allNetworkFaces[15],
+
+    allNetworkFaces[17],  // 아래
+    allNetworkFaces[19]
+].filter(Boolean);
+
+/* 처음에는 8개 전부 숨긴다 */
+gsap.set(allNetworkFaces, {
+    opacity: 0,
+    scale: 0.92
+});
+
+    
+
+
+if (
+    networkDots.length &&
+    networkLines.length &&
+    networkFaces.length
+) {
+
+    /* 이전 반복 모션 있으면 제거 */
+    if (window.networkMotionTl) {
+        window.networkMotionTl.kill();
+    }
+
+
+    /* =====================================
+       초기화
+    ===================================== */
+
+    gsap.set(networkDots, {
+        opacity: 1,
+        scale: 1
+    });
+
+
+    networkLines.forEach((line) => {
+
+        const length = line.getTotalLength();
+
+        gsap.set(line, {
+            strokeDasharray: length,
+            strokeDashoffset: length,
+            opacity: 0
+        });
+
+    });
+
+
+    gsap.set(networkFaces, {
+        opacity: 0,
+        scale: 0.92
+    });
+
+
+    /* =====================================
+       반복 Timeline
+    ===================================== */
+
+  const networkTl = gsap.timeline({
+    repeat: -1,
+    paused: true
+});
+
+    window.networkMotionTl = networkTl;
+
+
+    /* -------------------------------------
+       1. 점만 있는 상태
+    ------------------------------------- */
+
+    networkTl.set(networkDots, {
+        opacity: 1,
+        scale: 1
+    });
+
+    networkTl.to({}, {
+        duration: 0.3
+    });
+
+
+    /* -------------------------------------
+       2. 선이 점과 점 사이를 연결
+    ------------------------------------- */
+
+    networkTl.to(
+        networkLines,
+        {
+            strokeDashoffset: 0,
+            opacity: 1,
+
+            duration: 0.7,
+
+            stagger: {
+                each: 0.025,
+                from: "random"
+            },
+
+            ease: "power2.inOut"
+        }
+    );
+
+
+    /* 선 완성 상태 */
+    networkTl.to({}, {
+        duration: 0.5
+    });
+
+
+    /* -------------------------------------
+       3. 면 몇 개 채워짐
+    ------------------------------------- */
+
+networkTl.to(networkFaces, {
+    opacity: 1,
+    scale: 1,
+    duration: 1,
+    ease: "power2.out"
+});
+
+
+    /* 완성 상태 */
+    networkTl.to({}, {
+        duration: 0.5
+    });
+
+
+    /* -------------------------------------
+       4. 면 사라짐
+    ------------------------------------- */
+
+    networkTl.to(
+        networkFaces,
+        {
+            opacity: 0,
+            scale: 0.92,
+
+            duration: 0.5,
+
+            stagger: {
+                each: 0.05,
+                from: "random"
+            }
+        }
+    );
+
+
+    /* -------------------------------------
+       5. 선 사라짐
+    ------------------------------------- */
+
+    networkTl.to(
+        networkLines,
+        {
+            strokeDashoffset:
+                (i, line) => line.getTotalLength(),
+
+            opacity: 0,
+
+            duration: 0.5,
+
+            stagger: {
+                each: 0.018,
+                from: "random"
+            },
+
+            ease: "power2.inOut"
+        }
+    );
+
+
+    /* -------------------------------------
+       6. 다시 점만
+    ------------------------------------- */
+
+    networkTl.to({}, {
+        duration: 0.5
+    });
+
 }
 
-gsap.set(".floating-icons", {
-  opacity: 0
-});
+}
 
-/* ★ 재진입할 때 부모 텍스트 다시 보이게 */
-gsap.set(".text", {
-  opacity: 1
-});
+
 
 
 /*
@@ -722,6 +932,45 @@ if (textTarget) {
           onComplete:
             () => {
 
+// 이미지가 나온 뒤 원 라인 사라짐
+gsap.to(circle, {
+  opacity: 0,
+  duration: 0.5,
+  ease: "power2.out"
+});
+
+/* 완성된 텍스트 넣기 */
+const textTarget =
+  document.querySelector(".text p");
+
+if (textTarget) {
+  textTarget.innerHTML = `
+    <span class="keyword">점</span>에서 시작해
+    <span class="keyword">선</span>을 그리고,
+    <span class="keyword">면</span>을 더해<br>
+    <strong>입체적 창조</strong>로 나아가는 디자이너입니다.
+  `;
+}
+
+gsap.to(
+  [".network-svg", ".text", ".text p"],
+  {
+    opacity: 1,
+    y: 0,
+    duration: 0.8,
+    ease: "power2.out",
+
+    onComplete: () => {
+
+      if (window.networkMotionTl) {
+        window.networkMotionTl.restart();
+      }
+
+      wheelLocked = false;
+    }
+  }
+);
+
 
 const secondLinePath =
   document.querySelector(
@@ -750,15 +999,6 @@ if (secondLinePath) {
     }
   );
 
-  /* 선이 그려지는 중간부터 타이핑 시작 */
-  gsap.delayedCall(
-    0.7,
-    showStyledText
-  );
-
-} else {
-
-  showStyledText();
 
 }
 
@@ -909,29 +1149,133 @@ if (secondLinePath) {
                   () => {
 
 
-                    gsap.to(
-                      ".floating-icons",
-                      {
-
-                        opacity: 1,
-
-                        duration: 1,
-
-                        ease:
-                          "power2.out",
+const flowTl = gsap.timeline({
+    onComplete: () => {
+        wheelLocked = false;
+    }
+});
 
 
-                        onComplete:
-                          () => {
+// 전체 영역 등장
+flowTl.to(".design-flow", {
+    opacity: 1,
+    y: 0,
+    duration: 0.4,
+    ease: "power2.out"
+});
 
-                            wheelLocked =
-                              false;
-                               
 
-                          }
+// DOT
+flowTl.fromTo(
+    ".flow-dot",
+    {
+        scale: 0,
+        opacity: 0
+    },
+    {
+        scale: 1,
+        opacity: 1,
+        duration: 0.45,
+        ease: "back.out(1.8)"
+    }
+);
 
-                      }
-                    );
+
+// 첫 번째 화살표
+flowTl.fromTo(
+    ".flow-arrow:nth-of-type(2)",
+    {
+        opacity: 0,
+        x: -8
+    },
+    {
+        opacity: 1,
+        x: 0,
+        duration: 0.3
+    }
+);
+
+
+// LINE
+flowTl.fromTo(
+    ".flow-line",
+    {
+        scaleX: 0,
+        opacity: 0
+    },
+    {
+        scaleX: 1,
+        opacity: 1,
+        duration: 0.5,
+        ease: "power2.out"
+    }
+);
+
+
+// 두 번째 화살표
+flowTl.fromTo(
+    ".flow-arrow:nth-of-type(4)",
+    {
+        opacity: 0,
+        x: -8
+    },
+    {
+        opacity: 1,
+        x: 0,
+        duration: 0.3
+    }
+);
+
+
+// SPACE
+flowTl.fromTo(
+    ".flow-plane",
+    {
+        scale: 0.3,
+        rotation: -20,
+        opacity: 0
+    },
+    {
+        scale: 1,
+        rotation: 0,
+        opacity: 1,
+        duration: 0.5,
+        ease: "back.out(1.5)"
+    }
+);
+
+
+// 세 번째 화살표
+flowTl.fromTo(
+    ".flow-arrow:nth-of-type(6)",
+    {
+        opacity: 0,
+        x: -8
+    },
+    {
+        opacity: 1,
+        x: 0,
+        duration: 0.3
+    }
+);
+
+
+// 3D
+flowTl.fromTo(
+    ".flow-3d",
+    {
+        scale: 0,
+        rotation: -45,
+        opacity: 0
+    },
+    {
+        scale: 1,
+        rotation: 360,
+        opacity: 1,
+        duration: 0.8,
+        ease: "back.out(1.5)"
+    }
+);
 
                   }
 
@@ -2537,8 +2881,7 @@ const scrollSteps = [
     }
 
 
-    return target.offsetTop;
-
+return window.scrollY + target.getBoundingClientRect().top;
   }
 
 
@@ -2548,9 +2891,7 @@ const scrollSteps = [
 
 function moveToStep(nextStep) {
 
-  if (wheelLocked) {
-    return;
-  }
+
 
   if (
     nextStep < 0 ||
@@ -2559,8 +2900,50 @@ function moveToStep(nextStep) {
     return;
   }
 
+  gsap.killTweensOf(window);
+
+gsap.killTweensOf([
+".dot.left",
+".dot.right",
+".line_center",
+".text-up",
+".text-down",
+".circle-mask",
+".circle-svg circle",
+".dot-container",
+".dot-rotate-wrapper",
+".spin-dot",
+".circle-fill-image",
+".network-svg",
+".text",
+".horizontal-line",
+".horizontal_line_right",
+".design-flow",
+".history",
+".history svg",
+".history svg > path",
+".history svg > g",
+".history svg > rect",
+".new-svg",
+".new-svg path",
+".new-svg-2",
+".new-svg-2 > svg > path",
+".ex",
+".ex2",
+".tool-svg",
+".tool-svg path",
+".tool-text"
+]);
+
+if (window.networkMotionTl) {
+window.networkMotionTl.kill();
+window.networkMotionTl = null;
+}
+
   wheelLocked = true;
   currentStep = nextStep;
+
+  
 
   const scrollHint =
   document.querySelector(".scroll-hint");
@@ -2731,13 +3114,7 @@ if (sideGnb && nextStep !== 4) {
       e.preventDefault();
 
 
-      if (
-        wheelLocked
-      ) {
 
-        return;
-
-      }
 
 
       const now =
@@ -3328,6 +3705,46 @@ if (cursorCanvas) {
 
 
   updateLineCursor();
+
+}
+
+const toolSvg = document.querySelector(".tool-icons-svg");
+
+if (toolSvg) {
+
+Array.from(toolSvg.children).forEach((el) => {
+
+const tag = el.tagName.toLowerCase();
+
+if (!["path", "rect", "g"].includes(tag)) return;
+
+try {
+
+const box = el.getBBox();
+
+const centerY = box.y + box.height / 2;
+
+if (centerY < 100) {
+
+el.classList.add("tool-old-title");
+
+} else if (centerY >= 150 && centerY < 310) {
+
+el.classList.add("tool-front-row");
+
+} else if (centerY >= 310 && centerY < 490) {
+
+el.classList.add("tool-design-row");
+
+} else if (centerY >= 490) {
+
+el.classList.add("tool-3d-row");
+
+}
+
+} catch (e) {}
+
+});
 
 }
 });

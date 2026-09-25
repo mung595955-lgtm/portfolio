@@ -172,6 +172,77 @@ $(function () {
       paused: true
     });
 
+    const introSkip = document.querySelector(".intro-skip");
+
+introSkip?.addEventListener("click", () => {
+
+// 진행 중인 인트로 모션 정지
+gsap.killTweensOf([
+".white-fill",
+".dots-wrapper",
+".dot1",
+".dot2",
+".text-wrapper",
+".mask-wrapper",
+".new-fill",
+".next-wrapper",
+".background2",
+".wave-fill-wrapper",
+".wave-fill",
+".draw-path",
+".draw_dot",
+".fill-rect"
+]);
+
+drawTimeline.pause();
+
+// 앞쪽 화면 숨기기
+gsap.set([
+".background",
+".background2",
+".white-fill",
+".dots-wrapper",
+".text-wrapper",
+".mask-wrapper",
+".new-fill",
+".next-wrapper"
+], {
+opacity: 0,
+pointerEvents: "none"
+});
+
+const wrapper = document.querySelector(".wave-fill-wrapper");
+
+if (wrapper) {
+wrapper.style.display = "none";
+}
+
+// Project 바로 표시
+const project = document.querySelector(".project");
+
+if (project) {
+gsap.killTweensOf(project);
+
+gsap.set(project, {
+opacity: 1,
+y: 0
+});
+
+project.style.height = "100vh";
+project.style.overflow = "hidden";
+project.style.pointerEvents = "auto";
+}
+
+// Project 상태로 GNB 변경
+document
+.querySelector(".side_gnb")
+?.classList.add("project-active");
+
+// SKIP 버튼 숨김
+introSkip.classList.add("is-hidden");
+
+});
+
 
 
   /* =====================================================
@@ -611,7 +682,7 @@ $(function () {
 
     project.style.pointerEvents =
       "none";
-
+introSkip?.classList.add("is-hidden");
 
 
 
@@ -975,6 +1046,14 @@ projectCards.forEach((card) => {
   card.addEventListener("mouseleave", () => {
     projectSwiper.autoplay.start();
   });
+
+  document.querySelector(".project-arrow-prev")?.addEventListener("click", () => {
+projectSwiper.slidePrev();
+});
+
+document.querySelector(".project-arrow-next")?.addEventListener("click", () => {
+projectSwiper.slideNext();
+});
 
 });
 
