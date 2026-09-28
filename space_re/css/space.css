@@ -869,7 +869,7 @@ html {
 /* BLOOP */
 .bloop-card .project_img img {
   position: absolute;
-  left: 95px;
+  left: -22px;
   top: 200px;
 }
 
